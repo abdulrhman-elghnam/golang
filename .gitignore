@@ -1,0 +1,50 @@
+# -----------------------------------------------------------------------------
+# Binaries and Compiled Outputs
+# -----------------------------------------------------------------------------
+# Compiled applications
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries and execution artifacts
+*.test
+*.out
+
+# -----------------------------------------------------------------------------
+# Code Coverage and Profiling
+# -----------------------------------------------------------------------------
+# Test coverage profiles
+*.coverprofile
+*.output
+profile.cov
+coverage.out
+
+# -----------------------------------------------------------------------------
+# Dependencies and Workspaces
+# -----------------------------------------------------------------------------
+# Only ignore vendor/ if you do not want to commit dependencies.
+# vendor/
+
+# Go workspace files
+go.work
+go.work.sum
+
+# -----------------------------------------------------------------------------
+# Development Environment & Secrets
+# -----------------------------------------------------------------------------
+# Local environment variables
+.env
+.env.*
+!.env.example
+
+# Common IDE configurations
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
