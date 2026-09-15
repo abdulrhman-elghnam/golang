@@ -144,7 +144,15 @@ func LogIn(userRepo *repository.Repository) gin.HandlerFunc {
 
 		structure.OK(ctx, gin.H{
 			"message": "Login successful",
-			"token":   token,
+			"user": gin.H{
+				"id":        user.ID,
+				"firstName": user.FirstName,
+				"lastName":  user.LastName,
+				"email":     user.Email,
+				"phone":     user.Phone,
+				"role":      user.Role,
+			},
+			"token": token,
 		}, http.StatusOK)
 	}
 }
@@ -156,8 +164,6 @@ func ConfirmEmail(userRepo *repository.Repository) {
 func ForgetPassword(userRepo *repository.Repository) {
 
 }
-
-
 
 func ChangePassword(userRepo *repository.Repository) {
 
