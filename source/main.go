@@ -16,16 +16,16 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	db, err := database.DatabaseConnection()
+	 err := database.DatabaseConnection()
 	if err != nil {
 		log.Fatal(err)
 	}
 	router := gin.Default()
-	index := router.Group("/")
+	app := router.Group("/")
 
-	authentication.AuthenticationControllerRegistration(index , db)
+	authentication.AuthenticationControllerRegistration(app)
 
-	index.GET("/", func(c *gin.Context) {
+	app.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "hello from backend server 🚀",
 		})

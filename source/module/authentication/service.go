@@ -12,8 +12,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func SignUp(db *gorm.DB) gin.HandlerFunc {
-	repo := repository.NewRepository(db)
+func SignUp() gin.HandlerFunc {
+	repo := repository.NewRepository()
 
 return func(ctx *gin.Context) {
 
