@@ -9,7 +9,6 @@ import (
 	"github.com/abdulrhman-elghnam/golang/source/common/structure"
 	"github.com/abdulrhman-elghnam/golang/source/database/model"
 	"github.com/abdulrhman-elghnam/golang/source/database/repository"
-	"github.com/abdulrhman-elghnam/golang/source/module/authentication/dto"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -17,7 +16,7 @@ import (
 func SignUp(userRepo *repository.Repository) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var user model.User
-		var request dto.SignUpDTO
+		var request SignUpDTO
 
 		if err := ctx.ShouldBindJSON(&request); err != nil {
 			structure.Fail(ctx, http.StatusBadRequest, err.Error())
@@ -84,7 +83,7 @@ func SignUp(userRepo *repository.Repository) gin.HandlerFunc {
 
 func LogIn(userRepo *repository.Repository) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var request dto.LogInDTO
+		var request LogInDTO
 		var user model.User
 
 		if err := ctx.ShouldBindJSON(&request); err != nil {

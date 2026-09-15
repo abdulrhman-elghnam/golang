@@ -1,4 +1,4 @@
-package dto
+package authentication
 
 type SignUpDTO struct {
 	FirstName string `json:"firstName" binding:"required,min=2,max=30"`

@@ -17,5 +17,7 @@ type User struct {
 	DOB       time.Time `gorm:"not null"`
 	Role      string    `gorm:"not null;default:member"`
 
+	EmailVerifiedAt *time.Time
+
 	Borrows []Borrow
 }
