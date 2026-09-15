@@ -1,8 +1,11 @@
 package authentication
 
 import (
+	"errors"
 	"net/http"
 
+	"github.com/abdulrhman-elghnam/golang/source/common/jwt"
+	"github.com/abdulrhman-elghnam/golang/source/common/security"
 	"github.com/abdulrhman-elghnam/golang/source/common/structure"
 	"github.com/abdulrhman-elghnam/golang/source/database/model"
 	"github.com/abdulrhman-elghnam/golang/source/database/repository"
@@ -10,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
+
 func SignUp(userRepo *repository.Repository) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var user model.User
@@ -36,7 +40,7 @@ func SignUp(userRepo *repository.Repository) gin.HandlerFunc {
 			return
 		}
 
-		if err != gorm.ErrRecordNotFound {
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
 			structure.Fail(
 				ctx,
 				http.StatusInternalServerError,
@@ -45,11 +49,21 @@ func SignUp(userRepo *repository.Repository) gin.HandlerFunc {
 			return
 		}
 
+		hashedPassword, err := security.HashPassword(request.Password)
+		if err != nil {
+			structure.Fail(
+				ctx,
+				http.StatusInternalServerError,
+				"Failed to hash password",
+			)
+			return
+		}
+
 		user = model.User{
 			FirstName: request.FirstName,
 			LastName:  request.LastName,
 			Email:     request.Email,
-			Password:  request.Password,
+			Password:  hashedPassword,
 			Phone:     request.Phone,
 		}
 
@@ -66,4 +80,76 @@ func SignUp(userRepo *repository.Repository) gin.HandlerFunc {
 			"message": "User created successfully",
 		}, http.StatusCreated)
 	}
+}
+
+func LogIn(userRepo *repository.Repository) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var request dto.LogInDTO
+		var user model.User
+
+		if err := ctx.ShouldBindJSON(&request); err != nil {
+			structure.Fail(
+				ctx,
+				http.StatusBadRequest,
+				err.Error(),
+			)
+			return
+		}
+
+		err := userRepo.FindOne(
+			map[string]any{
+				"email": request.Email,
+			},
+			&user,
+		)
+
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			structure.Fail(
+				ctx,
+				http.StatusUnauthorized,
+				"Invalid email or password",
+			)
+			return
+		}
+
+		if err != nil {
+			structure.Fail(
+				ctx,
+				http.StatusInternalServerError,
+				"Database error",
+			)
+			return
+		}
+
+		if !security.ComparePassword(
+			request.Password,
+			user.Password,
+		) {
+			structure.Fail(
+				ctx,
+				http.StatusUnauthorized,
+				"Invalid email or password",
+			)
+			return
+		}
+
+		token, err := jwt.GenerateToken(user.ID)
+		if err != nil {
+			structure.Fail(
+				ctx,
+				http.StatusInternalServerError,
+				"Failed to generate token",
+			)
+			return
+		}
+
+		structure.OK(ctx, gin.H{
+			"message": "Login successful",
+			"token":   token,
+		}, http.StatusOK)
+	}
+}
+
+func ForgetPassword(userRepo *repository.Repository) {
+
 }

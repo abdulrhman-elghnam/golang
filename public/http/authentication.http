@@ -4,9 +4,18 @@ Content-Type: application/json
 {
     "FirstName":"ahmed",
     "LastName":"mohamed",
-    "Email":"ahmed@gmail.com",
+    "Email":"ahmed1@gmail.com",
     "Password" : "#Aa334455",
-    "Phone":"97112240",
+    "Phone":"197112240",
     "DOB":"2025-5-12"
 
+}
+
+###
+POST http://localhost:9090/authentication/login
+Content-Type: application/json
+
+{
+    "Email":"ahmed1@gmail.com",
+    "Password" : "#Aa334455"
 }

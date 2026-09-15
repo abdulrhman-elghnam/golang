@@ -11,8 +11,8 @@ func AuthenticationControllerRegistration(
 	db *gorm.DB,
 ) {
 	router := rg.Group("/authentication")
-
 	userRepo := repository.NewRepository(db)
-
+	
 	router.POST("/signup", SignUp(userRepo))
+	router.POST("/login", LogIn(userRepo))
 }
