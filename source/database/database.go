@@ -8,22 +8,22 @@ import (
 
 var DB *gorm.DB
 
-func DatabaseConnection() error {
+func DatabaseConnection() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open(".app.db"), &gorm.Config{})
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	err = db.AutoMigrate(
 		&model.User{},
-		&model.Post{},
-		&model.Comment{},
+		&model.Book{},
+		&model.Author{},
+		&model.Category{},
+		&model.Borrow{},
 	)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	DB = db
-
-	return nil
+	return db, nil
 }

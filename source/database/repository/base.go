@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"github.com/abdulrhman-elghnam/golang/source/database"
 	"gorm.io/gorm"
 )
 
@@ -9,9 +8,9 @@ type Repository struct {
 	db *gorm.DB
 }
 
-func NewRepository() *Repository {
+func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{
-		database.DB,
+		db: db,
 	}
 }
 

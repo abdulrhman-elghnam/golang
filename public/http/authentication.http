@@ -1,0 +1,12 @@
+POST http://localhost:9090/authentication/signup
+Content-Type: application/json
+
+{
+    "FirstName":"ahmed",
+    "LastName":"mohamed",
+    "Email":"ahmed@gmail.com",
+    "Password" : "#Aa334455",
+    "Phone":"97112240",
+    "DOB":"2025-5-12"
+
+}

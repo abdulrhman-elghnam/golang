@@ -1,11 +1,18 @@
 package authentication
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/abdulrhman-elghnam/golang/source/database/repository"
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+)
 
-func AuthenticationControllerRegistration(rg *gin.RouterGroup) {
-
+func AuthenticationControllerRegistration(
+	rg *gin.RouterGroup,
+	db *gorm.DB,
+) {
 	router := rg.Group("/authentication")
 
-	router.GET("/signup", SignUp())
+	userRepo := repository.NewRepository(db)
 
+	router.POST("/signup", SignUp(userRepo))
 }
