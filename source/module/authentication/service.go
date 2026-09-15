@@ -150,6 +150,20 @@ func LogIn(userRepo *repository.Repository) gin.HandlerFunc {
 	}
 }
 
+func ConfirmEmail(userRepo *repository.Repository) {
+
+}
+
 func ForgetPassword(userRepo *repository.Repository) {
+
+}
+
+
+
+func ChangePassword(userRepo *repository.Repository) {
+
+}
+
+func ConfirmPassword(userRepo *repository.Repository) {
 
 }

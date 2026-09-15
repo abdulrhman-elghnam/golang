@@ -14,4 +14,3 @@ type LogInDTO struct {
 	Password string `json:"password" binding:"required"`
 }
 
-

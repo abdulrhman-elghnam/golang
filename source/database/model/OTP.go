@@ -11,6 +11,7 @@ type OTP struct {
 
 	UserID    uint      `gorm:"not null"`
 	CodeHash  string    `gorm:"not null"`
+	Type      string    `gorm:"not null"`
 	ExpiresAt time.Time `gorm:"not null"`
 	Used      bool      `gorm:"default:false"`
 

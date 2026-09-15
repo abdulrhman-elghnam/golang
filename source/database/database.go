@@ -20,6 +20,7 @@ func DatabaseConnection() (*gorm.DB, error) {
 		&model.Author{},
 		&model.Category{},
 		&model.Borrow{},
+		&model.OTP{},
 	)
 	if err != nil {
 		return nil, err
