@@ -14,33 +14,33 @@ func NewRepository(db *gorm.DB) *Repository {
 	}
 }
 
-func (r *Repository) Create(data any) error {
-	return r.db.Create(data).Error
+func (repo *Repository) Create(data any) error {
+	return repo.db.Create(data).Error
 }
 
-func (r *Repository) CreateMany(data any) error {
-	return r.db.Create(data).Error
+func (repo *Repository) CreateMany(data any) error {
+	return repo.db.Create(data).Error
 }
 
-func (r *Repository) FindByID(id any, result any) error {
-	return r.db.First(result, id).Error
+func (repo *Repository) FindByID(id any, result any) error {
+	return repo.db.First(result, id).Error
 }
 
-func (r *Repository) FindOne(
+func (repo *Repository) FindOne(
 	filter map[string]any,
 	result any,
 ) error {
-	return r.db.
+	return repo.db.
 		Where(filter).
 		First(result).
 		Error
 }
 
-func (r *Repository) Find(
+func (repo *Repository) Find(
 	filter map[string]any,
 	result any,
 ) error {
-	query := r.db
+	query := repo.db
 
 	if filter != nil {
 		query = query.Where(filter)
@@ -49,12 +49,12 @@ func (r *Repository) Find(
 	return query.Find(result).Error
 }
 
-func (r *Repository) FindWithSelect(
+func (repo *Repository) FindWithSelect(
 	filter map[string]any,
 	selectFields []string,
 	result any,
 ) error {
-	query := r.db
+	query := repo.db
 
 	if filter != nil {
 		query = query.Where(filter)
@@ -66,79 +66,79 @@ func (r *Repository) FindWithSelect(
 		Error
 }
 
-func (r *Repository) UpdateOne(
+func (repo *Repository) UpdateOne(
 	filter map[string]any,
 	update map[string]any,
 	model any,
 ) error {
-	return r.db.
+	return repo.db.
 		Model(model).
 		Where(filter).
 		Updates(update).
 		Error
 }
 
-func (r *Repository) UpdateByID(
+func (repo *Repository) UpdateByID(
 	id any,
 	update map[string]any,
 	model any,
 ) error {
-	return r.db.
+	return repo.db.
 		Model(model).
 		Where("id = ?", id).
 		Updates(update).
 		Error
 }
 
-func (r *Repository) FindOneAndUpdate(
+func (repo *Repository) FindOneAndUpdate(
 	filter map[string]any,
 	update map[string]any,
 	result any,
 ) error {
-	return r.db.
+	return repo.db.
 		Model(result).
 		Where(filter).
 		Updates(update).
 		Error
 }
 
-func (r *Repository) DeleteOne(
+func (repo *Repository) DeleteOne(
 	filter map[string]any,
 	model any,
 ) error {
-	return r.db.
+	return repo.db.
 		Where(filter).
 		Delete(model).
 		Error
 }
 
-func (r *Repository) DeleteByID(
+func (repo *Repository) DeleteByID(
 	id any,
 	model any,
 ) error {
-	return r.db.
+	return repo.db.
 	Where("id = ?", id).
 	Delete(model).
 	Error
 }
 
-func (r *Repository) DeleteMany(
+func (repo *Repository) DeleteMany(
 	filter map[string]any,
 	model any,
 ) error {
-	return r.db.
+	return repo.db.
 	Where(filter).
 	Delete(model).
 	Error
 }
 
-func (r *Repository) Count(
+func (repo *Repository) Count(
 	filter map[string]any,
 	model any,
 ) (int64, error) {
 	var count int64
 
-	err := r.db.
+	err := repo.db.
 		Model(model).
 		Where(filter).
 		Count(&count).
@@ -147,12 +147,12 @@ func (r *Repository) Count(
 	return count, err
 }
 
-func (r *Repository) Preload(
+func (repo *Repository) Preload(
 	filter map[string]any,
 	relation string,
 	result any,
 ) error {
-	query := r.db
+	query := repo.db
 
 	if filter != nil {
 		query = query.Where(filter)
@@ -164,12 +164,12 @@ func (r *Repository) Preload(
 		Error
 }
 
-func (r *Repository) PreloadOne(
+func (repo *Repository) PreloadOne(
 	filter map[string]any,
 	relation string,
 	result any,
 ) error {
-	query := r.db
+	query := repo.db
 
 	if filter != nil {
 		query = query.Where(filter)
@@ -181,7 +181,7 @@ func (r *Repository) PreloadOne(
 		Error
 }
 
-func (r *Repository) Paginate(
+func (repo *Repository) Paginate(
 	filter map[string]any,
 	page int,
 	size int,
@@ -199,7 +199,7 @@ func (r *Repository) Paginate(
 
 	var count int64
 
-	err := r.db.
+	err := repo.db.
 		Model(model).
 		Where(filter).
 		Count(&count).
@@ -213,7 +213,7 @@ func (r *Repository) Paginate(
 
 	offset := (page - 1) * size
 
-	err = r.db.
+	err = repo.db.
 		Where(filter).
 		Limit(size).
 		Offset(offset).
@@ -223,58 +223,58 @@ func (r *Repository) Paginate(
 	return count, pages, err
 }
 
-func (r *Repository) Order(
+func (repo *Repository) Order(
 	filter map[string]any,
 	order string,
 	result any,
 ) error {
-	return r.db.
+	return repo.db.
 		Where(filter).
 		Order(order).
 		Find(result).
 		Error
 }
 
-func (r *Repository) Limit(
+func (repo *Repository) Limit(
 	filter map[string]any,
 	limit int,
 	result any,
 ) error {
-	return r.db.
+	return repo.db.
 		Where(filter).
 		Limit(limit).
 		Find(result).
 		Error
 }
 
-func (r *Repository) Offset(
+func (repo *Repository) Offset(
 	filter map[string]any,
 	offset int,
 	result any,
 ) error {
-	return r.db.
+	return repo.db.
 		Where(filter).
 		Offset(offset).
 		Find(result).
 		Error
 }
 
-func (r *Repository) Select(
+func (repo *Repository) Select(
 	fields []string,
 	result any,
 ) error {
-	return r.db.
+	return repo.db.
 		Select(fields).
 		Find(result).
 		Error
 }
 
-func (r *Repository) Joins(
+func (repo *Repository) Joins(
 	join string,
 	filter map[string]any,
 	result any,
 ) error {
-	query := r.db.Joins(join)
+	query := repo.db.Joins(join)
 
 	if filter != nil {
 		query = query.Where(filter)
