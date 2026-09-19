@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/abdulrhman-elghnam/golang/source/common/jwt"
-	"github.com/abdulrhman-elghnam/golang/source/common/security"
+	jwtpkg "github.com/abdulrhman-elghnam/golang/source/common/security/jwt"
+	security "github.com/abdulrhman-elghnam/golang/source/common/security/private"
 	"github.com/abdulrhman-elghnam/golang/source/common/structure"
 	"github.com/abdulrhman-elghnam/golang/source/database/model"
 	"github.com/abdulrhman-elghnam/golang/source/database/repository"
@@ -132,7 +132,7 @@ func LogIn(userRepo *repository.Repository) gin.HandlerFunc {
 			return
 		}
 
-		token, err := jwt.GenerateToken(user.ID)
+		token, err := jwtpkg.GenerateToken(user.ID)
 		if err != nil {
 			structure.Fail(
 				ctx,
