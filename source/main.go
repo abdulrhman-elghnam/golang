@@ -26,14 +26,14 @@ func main() {
 
 	authentication.AuthenticationControllerRegistration(app,db)
 
-	app.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
+	app.GET("/", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{
 			"message": "hello from backend server 🚀",
 		})
 	})
 
-	router.NoRoute(func(c *gin.Context) {
-		c.JSON(http.StatusNotFound, gin.H{
+	router.NoRoute(func(ctx *gin.Context) {
+		ctx.JSON(http.StatusNotFound, gin.H{
 			"message": "route is not exist 🦦",
 		})
 	})
